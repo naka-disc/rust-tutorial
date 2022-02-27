@@ -33,15 +33,14 @@ fn main() {
 
     // このままだと型が不一致なので、入力された値をパース
     // u32は、符号なし32ビットの数値
-    let guess: u32 = guess
-      // 先頭と末尾のスペースを除去
-      .trim()
-      // パース。値に応じて、型推論してくれる
-      // @see https://doc.rust-lang.org/stable/std/primitive.str.html#method.parse
-      .parse()
-      // パニック処理
-      // あんまりよくわからんここ
-      .expect("Please type a number!");
+    // パース失敗（=入力値が整数以外）の場合はエラーの内容を出力してcontinue
+    let guess: u32 = match guess.trim().parse() {
+      Ok(num) => num,
+      Err(e) => {
+        println!("{}", e);
+        continue;
+      }
+    };
 
     // 乱数と変換後の入力値とを比較し、結果を出力
     match guess.cmp(&secret_number) {
@@ -56,5 +55,4 @@ fn main() {
       }
     }
   }
-
 }
