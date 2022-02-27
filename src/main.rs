@@ -1,12 +1,19 @@
 // 標準ライブラリ 入力受付など
 use std::io;
+// randライブラリ
+use rand::Rng;
 
 // main関数がエントリーポイント
 fn main() {
   // println!で、画面上に出力
   println!("Guess the number!");
-  println!("Please input your guess.");
 
+  // 1〜100までのランダムな数値を定義
+  let secret_number = rand::thread_rng().gen_range(1..101);
+  println!("The secret number is: {}", secret_number);
+
+  // 入力を促す出力
+  println!("Please input your guess.");
   // 変数定義 let mutなので、ミュータブル（変更可能）
   let mut guess = String::new();
 
