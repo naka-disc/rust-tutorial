@@ -1,5 +1,8 @@
 // 標準ライブラリ 入力受付など
 use std::io;
+// 標準ライブラリ 比較
+// OrderingはEnumで、Less/Greater/Equalを持っており、これらは小さい、同値、大きいを表す
+use std::cmp::Ordering;
 // randライブラリ
 use rand::Rng;
 
@@ -25,6 +28,25 @@ fn main() {
     // パニック処理
     // あんまりよくわからんここ
     .expect("Failed to read line");
+
+  // このままだと型が不一致なので、入力された値をパース
+  // u32は、符号なし32ビットの数値
+  let guess: u32 = guess
+    // 先頭と末尾のスペースを除去
+    .trim()
+    // パース。値に応じて、型推論してくれる
+    // @see https://doc.rust-lang.org/stable/std/primitive.str.html#method.parse
+    .parse()
+    // パニック処理
+    // あんまりよくわからんここ
+    .expect("Please type a number!");
+
+  // 乱数と変換後の入力値とを比較し、結果を出力
+  match guess.cmp(&secret_number) {
+    Ordering::Less => println!("Too small!"),
+    Ordering::Greater => println!("Too big!"),
+    Ordering::Equal => println!("You win!"),
+  }
 
   // 入力値をセットして出力
   println!("You guessed: {}", guess);
